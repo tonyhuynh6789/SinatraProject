@@ -1,0 +1,10 @@
+<div class="tweet">
+  <%= @favorite.content %>
+  &mdash; <%= @favorite.user.username %>
+  <form action="/favorites/<%= @favorite.id %>/delete" method="POST">
+    <input type="hidden" id="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete Favorites">
+  </form>
+
+    <a href="/favorites/<%= @favorite.id %>/edit">Edit Favorite</a>
+</div>

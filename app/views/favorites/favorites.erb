@@ -1,0 +1,4 @@
+<h1>Welcome, <%= current_user.username %>!<a href="/logout">Log Out</a></h1>
+<% @favorites.each do |favorite|%>
+    <h3><a href="favorites/<%=favorite.id%>"> <%=favorite.content%></a></h3>
+<% end %>
