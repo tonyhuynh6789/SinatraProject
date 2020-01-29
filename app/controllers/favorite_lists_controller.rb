@@ -22,7 +22,7 @@ post '/favorites' do
            redirect "/favorites/new"
         else 
         @favorite = current_user.favorites.create(:content => params[:content])
-        flash[:notice] = "Your Task Has Been Succesfully Created"
+        flash[:notice] = "Your Favorite Has Been Succesfully Created"
         redirect '/favorites'  
         end 
     else 
@@ -47,7 +47,7 @@ delete '/favorites/:id/delete' do
         @favorite = Favorite.find_by(id: params[:id])
         if @favorite && @favorite.user == current_user
            @favorite.delete
-           flash[:notice] = "Task successfully removed!"
+           flash[:notice] = "Favorite successfully removed!"
         end 
         redirect '/favorites'
     else 
@@ -63,7 +63,7 @@ get '/favorites/:id/edit' do
         if @favorite && @favorite.user == current_user
            erb :'favorites/edit'
         else 
-           flash[:notice] = "You are not authorized to edit this task."
+           flash[:notice] = "You are not authorized to edit this favorite."
            redirect to '/login'
         end 
     end
@@ -81,7 +81,7 @@ patch '/favorites/:id' do
             if @favorite && @favorite.user == current_user
             @favorite.content = params[:content]
             @favorite.save 
-            flash[:notice] = "Your Task Has Been Succesfully Updated"
+            flash[:notice] = "Your Favorite Has Been Succesfully Updated"
             end   
             redirect '/favorites'
         end 

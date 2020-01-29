@@ -1,13 +1,11 @@
-<% if logged_in? %>
-<%= @error %>
+  <body class="text-center">
   <form action='/favorites' method="post">
-    Content:
-    <input type="text" name="content"><br>
-    Create Your Favorite:
-
-    <input type="submit" name="submit" id="submit">
+    <h2>Enter a favorite</h2>
+    <br><br>
+    <label><b>Content:</b></label>
+    <input type="text" name="content">
+    <br><br>
+    <input class="btn btn-primary" type="submit" name="submit" value="create" id="submit">
   </form>
+  </body>
 
-  <% else %>
-      <h1> You Must Be Logged in to Make Tweets </h1>
-  <% end %>

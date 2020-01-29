@@ -1,5 +1,10 @@
+  <body class="text-center" >
   <form action='/favorites/<%= @favorite.id %>' method="POST">
     <input type="hidden" id="hidden" name="_method" value="PATCH">
+    <h2>Enter the change bellow:</h2>
+    <br>
     <input type="text" name="content" value="<%= @favorite.content %>"><br>
-    <input type="submit" value="Edit" name="submit" id="submit">
+    <br><br>
+    <input class="btn btn-primary" type="submit" value="Edit" name="submit" id="submit">
   </form>
+  </body>
