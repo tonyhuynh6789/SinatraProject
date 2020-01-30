@@ -14,9 +14,11 @@ class UsersController < ApplicationController
         if @user.save 
             session[:user_id] = @user.id 
             redirect '/favorites'
+            #validations passed
         else 
-            flash[:notice] = 'Fields are blank or email is used. Please try again!'
+            flash[:notice] = 'Username or Email are used. Please try again!'
             redirect '/signup'
+             #validations failed
         end 
     end 
 
