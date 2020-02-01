@@ -30,16 +30,17 @@ class ApplicationController < Sinatra::Base
 
     def redirect_if_not_logged_in
       if !logged_in?
+        flash[:notice] = "You are not authorized"
         redirect '/login'
       end 
     end 
 
-    
-  end 
+    def if_user_and_user_of_favorite_is_not_current_user
+      if @favorite && @favorite.user != current_user
+        redirect '/favorites'
+      end 
+    end 
 
-
-
-
-  
+  end
 
 end

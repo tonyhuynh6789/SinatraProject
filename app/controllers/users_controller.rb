@@ -1,11 +1,11 @@
 class UsersController < ApplicationController 
 
     get '/signup' do 
-        if logged_in?
-            redirect '/favorites'
-        else 
-            erb :'/users/create_user'
-        end 
+      if logged_in?
+        redirect :'/favorites'
+      else 
+        erb :'/users/create_user'
+      end 
     end 
 
 
@@ -24,13 +24,14 @@ class UsersController < ApplicationController
 
 
     get '/login' do
-        if !logged_in?
-          erb :'/users/login'
-        else
-          redirect '/favorites'
-        end
-      end
+      if !logged_in?
+        erb :'/users/login'
+      else 
+        redirect '/favorites'
+      end 
+    end
     
+
       post '/login' do
         user = User.find_by(username: params[:username])
         if user && user.authenticate(params[:password])
@@ -43,7 +44,6 @@ class UsersController < ApplicationController
       end
     
     
-      
       get '/logout' do 
         if logged_in?
           session.clear
@@ -54,3 +54,6 @@ class UsersController < ApplicationController
       end 
 
 end 
+
+
+

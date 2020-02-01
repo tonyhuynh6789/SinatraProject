@@ -1,92 +1,78 @@
 class FavoriteListsController < ApplicationController 
     
+
     get '/favorites' do 
-           redirect_if_not_logged_in
-           @favorites = current_user.favorites
-           erb :'favorites/favorites'
+        redirect_if_not_logged_in
+        @favorites = current_user.favorites
+        erb :'favorites/favorites'
     end 
     
+
+
     get '/favorites/new' do 
-        if logged_in?
-            erb :'favorites/create_favorite'
-        else 
-            redirect '/login'
-        end 
+        redirect_if_not_logged_in
+        erb :'favorites/create_favorite' 
     end 
     
     
+
     post '/favorites' do 
-        if logged_in?
-            if params[:content].blank?
-                flash[:notice] = "The field is blank. Fill in bellow:"
-               redirect "/favorites/new"
-            else 
+        redirect_if_not_logged_in
+        if params[:content].blank?
+           flash[:notice] = "The field is blank. Fill in bellow:"
+           redirect "/favorites/new"
+        else 
             @favorite = current_user.favorites.create(:content => params[:content])
             flash[:notice] = "Your Favorite Has Been Succesfully Created"
             redirect '/favorites'  
-            end 
-        else 
-            redirect '/login'
         end 
+       
     end 
     
     
+
     get '/favorites/:id' do
-      if logged_in?
-          @favorite = Favorite.find_by(id: params[:id])
-          erb :'favorites/show_favorite'
-      else
-        redirect '/login'
-      end
-    
+        redirect_if_not_logged_in
+            @favorite = Favorite.find_by(id: params[:id])
+            erb :'favorites/show_favorite'
     end
+
+
     
+
     
     delete '/favorites/:id/delete' do
-        if logged_in?
-            @favorite = Favorite.find_by(id: params[:id])
-            if @favorite && @favorite.user == current_user
-               @favorite.delete
-               flash[:notice] = "Favorite successfully removed!"
-            end 
-            redirect '/favorites'
-        else 
-            redirect '/login'
-        end
+        redirect_if_not_logged_in
+           @favorite = Favorite.find_by(id: params[:id])
+           if_user_and_user_of_favorite_is_not_current_user
+           @favorite.delete
+           flash[:notice] = "Favorite successfully removed!"
+           redirect '/favorites'
     end 
     
     
     
     get '/favorites/:id/edit' do
-        if logged_in?
+        redirect_if_not_logged_in
             @favorite = Favorite.find_by_id(params[:id])
-            if @favorite && @favorite.user == current_user
-               erb :'favorites/edit'
-            else 
-               flash[:notice] = "You are not authorized to edit this favorite."
-               redirect to '/login'
-            end 
-        end
+            if_user_and_user_of_favorite_is_not_current_user
+            erb :'favorites/edit'   
     end
     
     
     
-    patch '/favorites/:id' do 
-        if logged_in?
-            if params[:content].blank?
-                flash[:notice] = "Field is unfilled"
-                redirect "/favorites/#{params[:id]}/edit"
-            else 
-                 @favorite = Favorite.find_by(:id => params[:id])
-                if @favorite && @favorite.user == current_user
-                @favorite.content = params[:content]
-                @favorite.save 
-                flash[:notice] = "Your Favorite Has Been Succesfully Updated"
-                end   
-                redirect '/favorites'
-            end 
+    patch '/favorites/:id' do  
+        redirect_if_not_logged_in
+        if params[:content].blank?
+            flash[:notice] = "Field is unfilled"
+            redirect "/favorites/#{params[:id]}/edit"
         else 
-            redirect '/login'
-        end  
-    end 
+            @favorite = Favorite.find_by(:id => params[:id])
+            if_user_and_user_of_favorite_is_not_current_user
+            @favorite.content = params[:content]
+            @favorite.save 
+            flash[:notice] = "Your Favorite Has Been Succesfully Updated"
+            redirect '/favorites'
+        end 
+    end     
 end     
